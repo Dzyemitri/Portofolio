@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Portfolio | Dzyemitri Dzikri Ramadhan</title>
+  
+  <!-- Favicon / Web App Icon -->
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1tTZct2jlSpJYyF9IebWWhJT_vH8c4zYW">
+  <link rel="shortcut icon" href="https://lh3.googleusercontent.com/d/1tTZct2jlSpJYyF9IebWWhJT_vH8c4zYW">
+  <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1tTZct2jlSpJYyF9IebWWhJT_vH8c4zYW">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background-color: #ececec; }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- URL Executable Google Apps Script Web App Anda -->
+  <iframe id="gasFrame" src="https://script.google.com/macros/s/AKfycbzdR5A5a--Fjt-OeqeH7sa8wLx9drDNF-o_WZy9OkeEdGO-kQX07mKcZ7NvdDJTH118HA/exec" allow="clipboard-write"></iframe>
+
+  <script>
+    // Teruskan parameter ?p=admin atau #admin dari domain GitHub Pages langsung ke dalam iframe
+    window.addEventListener('DOMContentLoaded', function() {
+      var iframe = document.getElementById('gasFrame');
+      var baseSrc = iframe.src.split('?')[0].split('#')[0];
+      var extra = window.location.search || window.location.hash || '';
+      if (extra) {
+        iframe.src = baseSrc + extra;
+      }
+    });
+
+    // Dengarkan perubahan hash (misal membuka domain.com#admin)
+    window.addEventListener('hashchange', function() {
+      var iframe = document.getElementById('gasFrame');
+      if (window.location.hash.toLowerCase() === '#admin') {
+        iframe.contentWindow.postMessage('open_admin', '*');
+      }
+    });
+  </script>
+</body>
+</html>
