@@ -24,26 +24,31 @@
 <body>
 
   <!-- URL Executable Google Apps Script Web App Anda -->
-  <iframe id="gasFrame" src="https://script.google.com/macros/s/AKfycbzdR5A5a--Fjt-OeqeH7sa8wLx9drDNF-o_WZy9OkeEdGO-kQX07mKcZ7NvdDJTH118HA/exec" allow="clipboard-write"></iframe>
+  <iframe id="gasFrame" src="" allow="clipboard-write"></iframe>
 
   <script>
-    // Teruskan parameter ?p=admin atau #admin dari domain GitHub Pages langsung ke dalam iframe
-    window.addEventListener('DOMContentLoaded', function() {
-      var iframe = document.getElementById('gasFrame');
-      var baseSrc = iframe.src.split('?')[0].split('#')[0];
-      var extra = window.location.search || window.location.hash || '';
-      if (extra) {
-        iframe.src = baseSrc + extra;
+    // Konversi parameter ?p=admin atau #admin menjadi parameter query ?p=admin untuk Google Apps Script
+    (function() {
+      var baseGasUrl = "https://script.google.com/macros/s/AKfycbzdR5A5a--Fjt-OeqeH7sa8wLx9drDNF-o_WZy9OkeEdGO-kQX07mKcZ7NvdDJTH118HA/exec";
+      
+      function getIframeTargetUrl() {
+        var hash = (window.location.hash || '').toLowerCase();
+        var search = (window.location.search || '').toLowerCase();
+        var isAdmin = (hash === '#admin' || hash.indexOf('admin') !== -1 || search.indexOf('admin') !== -1);
+        return isAdmin ? (baseGasUrl + "?p=admin") : baseGasUrl;
       }
-    });
 
-    // Dengarkan perubahan hash (misal membuka domain.com#admin)
-    window.addEventListener('hashchange', function() {
       var iframe = document.getElementById('gasFrame');
-      if (window.location.hash.toLowerCase() === '#admin') {
-        iframe.contentWindow.postMessage('open_admin', '*');
-      }
-    });
+      iframe.src = getIframeTargetUrl();
+
+      // Dengarkan jika hash berubah saat halaman sedang terbuka
+      window.addEventListener('hashchange', function() {
+        var newTarget = getIframeTargetUrl();
+        if (iframe.src !== newTarget) {
+          iframe.src = newTarget;
+        }
+      });
+    })();
   </script>
 </body>
 </html>
